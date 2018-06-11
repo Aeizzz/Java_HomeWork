@@ -1,11 +1,8 @@
 package edu.wfu.test;
 
 import edu.wfu.jsonparser.JSONParser;
-import edu.wfu.jsonparser.model.JsonObject;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
+import java.util.Map;
 
 public class Json {
 
@@ -22,7 +19,7 @@ public class Json {
 
         JSONParser jsonParser = new JSONParser();
         try {
-            JsonObject map = (JsonObject) jsonParser.parserJSON(json);
+            Map<String, Object> map = (Map<String, Object>) jsonParser.parserJSON(json);
             System.out.println(map);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,10 +1,13 @@
 package edu.wfu.jsonparser.parser;
 
-import edu.wfu.jsonparser.model.JsonArray;
-import edu.wfu.jsonparser.model.JsonObject;
 import edu.wfu.jsonparser.tokenizer.Token;
 import edu.wfu.jsonparser.tokenizer.TokenList;
 import edu.wfu.jsonparser.tokenizer.TokenType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Parser {
     /**
@@ -45,7 +48,7 @@ public class Parser {
     public Object parser() throws Exception {
         Token token = tokens.next();
         if (token == null) {
-            return new JsonObject();
+            return new HashMap<String, Object>();
         } else if (token.getTokenType() == TokenType.BEGIN_OBJECT) {
             return parserJsonObject();
         } else if (token.getTokenType() == TokenType.BEGIN_ARRAY) {
@@ -55,12 +58,12 @@ public class Parser {
         }
     }
 
-    private Object parserJsonArray() throws Exception {
+    private List parserJsonArray() throws Exception {
         // 除了 :  和 ， d都可以
         int exp = BEGIN_ARRAY_TOKEN | END_ARRAY_TOKEN | BEGIN_OBJECT_TOKEN | NULL_TOKEN
                 | NUMBER_TOKEN | BOOLEAN_TOKEN | STRING_TOKEN;
 
-        JsonArray jsonArray = new JsonArray();
+        List<Object> jsonArray = new ArrayList();
         while (tokens.hasMore()) {
             Token token = tokens.next();
             TokenType tokenType = token.getTokenType();
@@ -127,8 +130,9 @@ public class Parser {
      *
      * @return
      */
-    private Object parserJsonObject() throws Exception {
-        JsonObject jsonObject = new JsonObject();
+    private Map<String, Object> parserJsonObject() throws Exception {
+//        JsonObject jsonObject = new JsonObject();
+        Map<String, Object> jsonObject = new HashMap<>();
         int exp = STRING_TOKEN | END_OBJECT_TOKEN;
         String key = null;
         Object value = null;
@@ -210,7 +214,7 @@ public class Parser {
 
     private void checkExpectToken(TokenType tokenType, int expectToken) throws Exception {
         if ((tokenType.getTokenCode() & expectToken) == 0) {
-            throw new Exception("格式不正确" + "期望类型为" + expectToken );
+            throw new Exception("格式不正确" + "期望类型为" + expectToken);
         }
     }
 
