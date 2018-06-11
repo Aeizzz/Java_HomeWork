@@ -37,6 +37,12 @@ public class Parser {
     private TokenList tokens;
 
     public Object parser(TokenList tokens) throws Exception {
+        this.tokens = tokens;
+        return parser();
+    }
+
+
+    public Object parser() throws Exception {
         Token token = tokens.next();
         if (token == null) {
             return new JsonObject();
@@ -173,6 +179,7 @@ public class Parser {
                     if (preToken.getTokenType() == TokenType.SEP_COLON) {
                         value = token.getValue();
                         jsonObject.put(key, value);
+                        exp = SEP_COMMA_TOKEN | END_OBJECT_TOKEN;
                     } else {
                         key = token.getValue();
                         // 为 key 时 他的下一个必定为 :
@@ -203,7 +210,7 @@ public class Parser {
 
     private void checkExpectToken(TokenType tokenType, int expectToken) throws Exception {
         if ((tokenType.getTokenCode() & expectToken) == 0) {
-            throw new Exception("格式不正确");
+            throw new Exception("格式不正确" + "期望类型为" + expectToken );
         }
     }
 

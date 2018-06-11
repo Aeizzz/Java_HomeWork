@@ -124,13 +124,13 @@ public class Tokenizer {
             do {
                 sb.append(ch);
                 ch = charReader.next();
-            } while (!isDigit(ch));
+            } while (isDigit(ch));
 
         } else {
             do {
                 sb.append(ch);
                 ch = charReader.next();
-            } while (!isDigit(ch));
+            } while (isDigit(ch));
         }
         //读取结束  回退
         charReader.back();
@@ -192,8 +192,6 @@ public class Tokenizer {
      * \f
      * \n   ***
      * \r
-     * \t
-     * \u four-hex-digits
      *
      * @return
      * @throws IOException

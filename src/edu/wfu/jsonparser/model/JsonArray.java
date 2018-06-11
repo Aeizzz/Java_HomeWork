@@ -40,9 +40,8 @@ public class JsonArray implements Iterable {
 
     @Override
     public String toString() {
-        return "JsonArray{" +
-                "list=" + list +
-                '}';
+        return "" + list;
+
     }
 
     @Override

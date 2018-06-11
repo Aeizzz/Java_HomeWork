@@ -49,8 +49,6 @@ public class JsonObject {
 
     @Override
     public String toString() {
-        return "JsonObject{" +
-                "map=" + map +
-                '}';
+        return "" + map;
     }
 }

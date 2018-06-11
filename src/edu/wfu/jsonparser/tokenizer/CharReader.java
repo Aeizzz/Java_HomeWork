@@ -37,7 +37,7 @@ public class CharReader {
 
     // 回退一个
     public void back() {
-        pos = Math.max(0, pos--);
+        pos = Math.max(0, --pos);
     }
 
     public char next() throws IOException {
