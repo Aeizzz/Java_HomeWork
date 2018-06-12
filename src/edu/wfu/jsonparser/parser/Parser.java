@@ -39,20 +39,18 @@ public class Parser {
 
     private TokenList tokens;
 
-    public Object parser(TokenList tokens) throws Exception {
+    public Map<String, Object> parser(TokenList tokens) throws Exception {
         this.tokens = tokens;
         return parser();
     }
 
 
-    public Object parser() throws Exception {
+    private Map<String, Object> parser() throws Exception {
         Token token = tokens.next();
         if (token == null) {
             return new HashMap<String, Object>();
         } else if (token.getTokenType() == TokenType.BEGIN_OBJECT) {
             return parserJsonObject();
-        } else if (token.getTokenType() == TokenType.BEGIN_ARRAY) {
-            return parserJsonArray();
         } else {
             throw new Exception("错误");
         }
