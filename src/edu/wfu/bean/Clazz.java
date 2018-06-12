@@ -1,8 +1,10 @@
 package edu.wfu.bean;
 
-public class Zlass {
+public class Clazz {
+
     private String id;
     private String name;
+    private String add;
     private Student student;
 
     public String getId() {
@@ -21,6 +23,14 @@ public class Zlass {
         this.name = name;
     }
 
+    public String getAdd() {
+        return add;
+    }
+
+    public void setAdd(String add) {
+        this.add = add;
+    }
+
     public Student getStudent() {
         return student;
     }
@@ -31,9 +41,10 @@ public class Zlass {
 
     @Override
     public String toString() {
-        return "zlass{" +
+        return "Clazz{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", add='" + add + '\'' +
                 ", student=" + student +
                 '}';
     }
