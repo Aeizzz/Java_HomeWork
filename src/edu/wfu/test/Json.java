@@ -1,30 +1,20 @@
 package edu.wfu.test;
 
-import edu.wfu.jsonparser.JSONParser;
-
-import java.util.Map;
+import edu.wfu.bean.Student;
 
 public class Json {
 
-    public static void main(String[] args) {
-        String json = "{\n" +
-                "\t\"animals\":{\n" +
-                "\t\"dog\":[\n" +
-                "\t\t{\"name\":\"Rufus\",\"breed\":\"labrador\",\"count\":1,\"twoFeet\":false},\n" +
-                "\t\t{\"name\":\"Marty\",\"breed\":\"whippet\",\"count\":1,\"twoFeet\":false},\"asd\",\"asdasd\",\"44444\"\n" +
-                "\t],\n" +
-                "\t\"cat\":{\"name\":\"Matilda\"}\n" +
-                "}\n" +
-                "}";
+    public static void main(String[] args) throws Exception {
+        Student student = new Student();
+        student.setName("王思");
+        student.setAddr("潍坊");
+        student.setId(Long.valueOf(1996));
 
-        JSONParser jsonParser = new JSONParser();
-        try {
-            Map<String, Object> map = (Map<String, Object>) jsonParser.parserJSON(json);
-            System.out.println(map);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        Student st = new Student();
+        edu.wfu.utils.BeanUtils.copyProperties(student, st);
+        System.out.println(st);
+
+
     }
-
-
 }

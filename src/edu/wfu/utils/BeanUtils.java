@@ -27,12 +27,30 @@ public class BeanUtils {
             Map<String, Object> propMap = (Map<String, Object>) source;
             for (Map.Entry<String, Object> entry : propMap.entrySet()) {
                 String name = entry.getKey();
+                Object value = entry.getValue();
                 if (isWriteable(target, name)) {
-                    Object value = entry.getValue();
                     copyProperty(target, name, value);
 
                 }
             }
+        } else {
+            BeanInfo info = Introspector.getBeanInfo(source.getClass());
+            PropertyDescriptor[] sourceDescriptors =
+                    info.getPropertyDescriptors();
+
+            for (PropertyDescriptor pd : sourceDescriptors) {
+                String name = pd.getName();
+                if ("class".equals(name)) {
+                    continue;
+                }
+                if (isWriteable(target, name)) {
+                    Method method = pd.getReadMethod();
+                    Object value = method.invoke(source);
+                    copyProperty(target, name, value);
+                }
+
+            }
+
         }
 
 
@@ -56,6 +74,7 @@ public class BeanUtils {
                     Method method = ps.getWriteMethod();
                     if (value instanceof Long) {
                         // 暂时 未处理
+                        // TODO 处理整数类型
                         method.invoke(target, value);
                     } else {
 
