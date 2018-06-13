@@ -4,8 +4,13 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BeanUtils {
@@ -36,6 +41,22 @@ public class BeanUtils {
                         Object temp = getObgect(target, name);
                         copyProperties(value, temp);
                         copyProperty(target, name, temp);
+                        // list 类型判断
+                    } else if (value instanceof java.util.List) {
+                        // 获取泛型类型
+                        String tempObjectType = getObgectType(target, name);
+                        // 得到类
+                        Class t = Class.forName(tempObjectType);
+
+                        List<Map<String, Object>> list = (List<Map<String, Object>>) value;
+                        List<? super Object> tempList = new ArrayList<>();
+                        for (Map<String, Object> objectMap : list) {
+                            // 实例化对象
+                            Object tempObject = t.newInstance();
+                            copyProperties(objectMap, tempObject);
+                            tempList.add(tempObject);
+                        }
+                        copyProperty(target, name, tempList);
                     } else {
                         copyProperty(target, name, value);
                     }
@@ -54,6 +75,7 @@ public class BeanUtils {
                 if (isWriteable(target, name)) {
                     Method method = pd.getReadMethod();
                     Object value = method.invoke(source);
+
                     copyProperty(target, name, value);
                 }
 
@@ -61,6 +83,23 @@ public class BeanUtils {
 
         }
 
+
+    }
+
+
+    // 获取object 某个泛型中的参数类型
+    private static String getObgectType(Object target, String name) throws Exception {
+
+        Field field = target.getClass().getDeclaredField(name);
+        field.setAccessible(true);
+        Type genericType = field.getGenericType();
+        if (genericType instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) genericType;
+            return parameterizedType.getActualTypeArguments()[0].getTypeName();
+        }
+
+
+        throw new Exception("获取不到对象");
 
     }
 
@@ -116,10 +155,22 @@ public class BeanUtils {
                 // 判断是否是基础类型,如果不是则递归去转化
                 if (!(type.contains("java.lang") || type.contains("boolean") || type.contains("int")
                         || type.contains("double") || type.contains("long") || type.contains("char")
-                        || type.contains("byte") || type.contains("short") || type.contains("float"))) {
+                        || type.contains("byte") || type.contains("short") || type.contains("float")
+                        || type.contains("java.util"))) {
                     Map<String, Object> temp = new HashMap<>();
                     copyProperties(value, temp);
                     target.put(name, temp);
+                } else if (type.contains("List")) {
+                    List tempList = (List) value;
+                    List<Object> list = new ArrayList<>();
+                    for (Object object : tempList) {
+                        Map<String, Object> temp = new HashMap<>();
+                        copyProperties(object, temp);
+                        list.add(temp);
+                    }
+                    target.put(name, list);
+
+
                 } else {
                     target.put(name, value);
                 }

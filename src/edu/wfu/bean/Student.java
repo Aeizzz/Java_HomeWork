@@ -6,6 +6,15 @@ public class Student {
     private String id;
     private String addr;
 
+    public Student() {
+    }
+
+    public Student(String name, String id, String addr) {
+        this.name = name;
+        this.id = id;
+        this.addr = addr;
+    }
+
     public String getName() {
         return name;
     }
