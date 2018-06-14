@@ -52,9 +52,7 @@ public class JsonUtils {
                         tempStr.append(map.get(key) + ",");
                     }
 
-
                 }
-
                 jsonStr.append(tempStr.toString());
             }
             String str = jsonStr.substring(0, jsonStr.length() - 1);
