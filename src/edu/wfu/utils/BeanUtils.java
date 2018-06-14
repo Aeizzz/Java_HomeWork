@@ -195,13 +195,13 @@ public class BeanUtils {
             for (PropertyDescriptor ps : pds) {
                 if (ps.getName().equals(name)) {
                     Method method = ps.getWriteMethod();
-                    if (value instanceof Long) {
-                        // 暂时 未处理
-                        // TODO 处理整数类型
+//                    if (value instanceof Integer) {
+//                        // 暂时 未处理
+//                        // TODO 处理整数类型
+//                        method.invoke(target, value);
+//                    } else {
                         method.invoke(target, value);
-                    } else {
-                        method.invoke(target, value);
-                    }
+//                    }
                     return;
                 }
             }

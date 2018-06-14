@@ -16,6 +16,10 @@ import java.util.Map;
 public class JsonParserTest {
 
 
+    /**
+     * 测试 读入
+     * @throws IOException
+     */
     @Test
     public void TestCharReader() throws IOException {
         String  json = "{\n" +
@@ -33,6 +37,10 @@ public class JsonParserTest {
 
     }
 
+    /**
+     * 测试读入json 后token 的生成
+     * @throws Exception
+     */
     @Test
     public void TestTokenList() throws Exception {
         String  json = "{\n" +

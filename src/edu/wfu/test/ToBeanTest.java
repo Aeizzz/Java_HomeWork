@@ -31,16 +31,16 @@ public class ToBeanTest {
         student.setId("96451");
 
 
-        map.put("id", "19");
+        map.put("id", 19);
         map.put("name", "计科");
         map.put("student", student);
 
-        Zlass clazz = new Zlass();
+        edu.wfu.bean.Test test = new edu.wfu.bean.Test();
 
 
-        BeanUtils.copyProperties(map, clazz);
+        BeanUtils.copyProperties(map, test);
 
-        System.out.println(clazz);
+        System.out.println(test);
 
     }
 
